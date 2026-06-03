@@ -1,9 +1,10 @@
 import { curriculum } from "./data/curriculum.js";
 import { createStore } from "./state/store.js";
 import { completedLessonIds, getWeek } from "./state/selectors.js";
+import { runLearnerQuery } from "./services/sqlEngine.js";
 import { todayKey, yesterdayKey } from "./utils/date.js";
 import { hydrateIcons } from "./utils/icons.js";
-import { checkSqlPattern, formatSqlFeedback } from "./utils/sqlCheck.js";
+import { checkChallengeRequirements, formatSqlError, formatSqlFeedback } from "./utils/sqlCheck.js";
 import { getElements } from "./views/dom.js";
 import { renderBadges } from "./views/badgeView.js";
 import { renderBossBattle } from "./views/bossView.js";
@@ -52,19 +53,46 @@ function toggleLesson(weekId, lessonIndex, checked) {
   render();
 }
 
-function runQueryCheck() {
+async function runQueryCheck() {
   const week = getWeek(curriculum, store.getState().selectedWeek);
   const query = els.queryInput.value.trim();
-  const evaluation = checkSqlPattern(query, week.challenge.checks);
-  const feedback = formatSqlFeedback(evaluation);
 
-  store.update((state) => {
-    state.sqlAttempts[week.id] = { query, feedback, passedCount: evaluation.passedCount };
-    if (evaluation.passed) {
-      state.sqlPassed[week.id] = true;
-    }
-  });
-  render();
+  els.runButton.disabled = true;
+  els.sqlStatus.textContent = "Running";
+  els.feedbackBox.innerHTML = "<strong>Running SQLite...</strong>";
+  els.resultShell.innerHTML = "";
+
+  try {
+    const execution = await runLearnerQuery(query);
+    const requirements = checkChallengeRequirements(query, week.challenge.checks);
+    const feedback = formatSqlFeedback({ execution, requirements });
+
+    store.update((state) => {
+      state.sqlAttempts[week.id] = {
+        query,
+        feedback,
+        result: execution,
+        passedCount: requirements.passedCount
+      };
+      if (requirements.passed) {
+        state.sqlPassed[week.id] = true;
+      } else {
+        delete state.sqlPassed[week.id];
+      }
+    });
+  } catch (error) {
+    store.update((state) => {
+      state.sqlAttempts[week.id] = {
+        query,
+        feedback: formatSqlError(error),
+        error: error.message
+      };
+      delete state.sqlPassed[week.id];
+    });
+  } finally {
+    els.runButton.disabled = false;
+    render();
+  }
 }
 
 function revealSolution() {

@@ -105,7 +105,7 @@
             <div class="button-row">
               <button class="primary-button" id="runButton" type="button">
                 <span data-icon="play"></span>
-                Check Query
+                Run Query
               </button>
               <button class="ghost-button" id="solutionButton" type="button">
                 <span data-icon="eye"></span>
@@ -113,6 +113,7 @@
               </button>
             </div>
             <div class="feedback-box" id="feedbackBox" aria-live="polite"></div>
+            <div class="result-shell" id="resultShell" aria-live="polite"></div>
             <pre class="solution-box" id="solutionBox"></pre>
           </div>
 
@@ -160,6 +161,7 @@
       </main>
     </div>
 
+    <script src="./vendor/sqljs/sql-wasm.js"></script>
     <script type="module" src="./src/main.js"></script>
   </body>
 </html>

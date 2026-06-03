@@ -22,6 +22,7 @@ export function getElements() {
     runButton: document.getElementById("runButton"),
     solutionButton: document.getElementById("solutionButton"),
     feedbackBox: document.getElementById("feedbackBox"),
+    resultShell: document.getElementById("resultShell"),
     solutionBox: document.getElementById("solutionBox"),
     sqlStatus: document.getElementById("sqlStatus"),
     reviewList: document.getElementById("reviewList"),

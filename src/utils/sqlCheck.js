@@ -1,4 +1,4 @@
-export function checkSqlPattern(query, checks) {
+export function checkChallengeRequirements(query, checks) {
   const results = checks.map((check) => ({
     ...check,
     passed: new RegExp(check.pattern, "i").test(query.trim())
@@ -11,7 +11,24 @@ export function checkSqlPattern(query, checks) {
   };
 }
 
-export function formatSqlFeedback(evaluation) {
-  return `<strong>${evaluation.passed ? "Pattern accepted." : "Keep shaping the query."}</strong>
-    <ul>${evaluation.results.map((result) => `<li class="${result.passed ? "pass" : "miss"}">${result.label}</li>`).join("")}</ul>`;
+export function formatSqlFeedback({ execution, requirements }) {
+  const heading = requirements.passed
+    ? `SQLite executed successfully. ${execution.rowCount} row${execution.rowCount === 1 ? "" : "s"} returned.`
+    : "SQLite executed successfully, but the business intent needs work.";
+
+  return `<strong>${heading}</strong>
+    <ul>${requirements.results.map((result) => `<li class="${result.passed ? "pass" : "miss"}">${result.label}</li>`).join("")}</ul>`;
+}
+
+export function formatSqlError(error) {
+  return `<strong>SQLite could not run this query.</strong><p>${escapeHtml(error.message)}</p>`;
+}
+
+function escapeHtml(value) {
+  return String(value)
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;");
 }

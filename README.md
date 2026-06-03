@@ -1,6 +1,6 @@
 # Project Infinity SQL Mastery
 
-A human-centric SQL mastery system based on the supplied PDF brief. The first implementation is a static web app that turns the 24-week roadmap into a working learning dashboard with XP, levels, lesson completion, daily reviews, SQL practice, badges, and boss battles.
+A human-centric SQL mastery system based on the supplied PDF brief. The app turns the 24-week roadmap into a working learning dashboard with XP, levels, lesson completion, daily reviews, real in-browser SQLite practice, badges, and boss battles.
 
 ## Open The App
 
@@ -27,12 +27,14 @@ No package install step is required.
 - `src/data/curriculum.js` - 24-week roadmap and challenge content
 - `src/state/` - persistence and derived progress selectors
 - `src/utils/` - date, icon, and SQL-check helpers
+- `src/services/sqlEngine.js` - SQLite WebAssembly runtime wrapper
 - `src/views/` - focused renderers for dashboard sections
+- `vendor/sqljs/` - vendored SQL.js browser runtime
 - `assets/data-thinking-map.svg` - visual learning model asset
 - `reference/` - source PDF and extracted text brief
 
 ## Current Judgment Call
 
-The PDF describes a learning product rather than a conventional course document. This version starts with the product surface a learner would use every day: select a week, complete visible wins, attempt SQL, do retention reviews, and watch level progress change.
+The PDF describes a learning product rather than a conventional course document. This version starts with the product surface a learner would use every day: select a week, complete visible wins, execute SQL against sample data, do retention reviews, and watch level progress change.
 
-Future versions can add a real SQL execution engine, user accounts, richer analytics, spaced repetition scheduling, and instructor dashboards.
+Future versions can add richer datasets, user accounts, spaced repetition scheduling, and instructor dashboards.

@@ -1,3 +1,4 @@
 server.out.log
 server.err.log
 verification/
+node_modules/

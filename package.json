@@ -4,6 +4,13 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "serve": "python -m http.server 4173"
+    "serve": "python -m http.server 4173",
+    "verify:solutions": "node scripts/verify-solutions.js"
+  },
+  "dependencies": {
+    "sql.js": "^1.13.0"
+  },
+  "devDependencies": {
+    "playwright-core": "^1.60.0"
   }
 }

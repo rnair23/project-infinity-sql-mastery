@@ -314,15 +314,15 @@ export const curriculum = {
       review: ["What does the CTE represent?", "Can the step be tested alone?", "Does the final query read like the business question?"],
       challenge: {
         company: "StreamBox",
-        prompt: "Create a CTE for monthly active users and return months with more than 1000 active users.",
+        prompt: "Create a CTE for monthly active users and return months with more than 3 active users.",
         schema: ["events(id, user_id, event_date, event_name)"],
         starter: "with monthly_active as (...)",
         checks: [
           { label: "Uses WITH", pattern: "^\\s*with\\b" },
           { label: "Counts users", pattern: "count\\s*\\(\\s*distinct\\s+user_id\\s*\\)" },
-          { label: "Filters active months", pattern: "active_users\\s*>\\s*1000|having\\s+.*1000" }
+          { label: "Filters active months", pattern: "active_users\\s*>\\s*3|having\\s+.*3" }
         ],
-        solution: "with monthly_active as (\n  select date_trunc('month', event_date) as month,\n    count(distinct user_id) as active_users\n  from events\n  group by date_trunc('month', event_date)\n)\nselect month, active_users\nfrom monthly_active\nwhere active_users > 1000;"
+        solution: "with monthly_active as (\n  select strftime('%Y-%m', event_date) as month,\n    count(distinct user_id) as active_users\n  from events\n  group by strftime('%Y-%m', event_date)\n)\nselect month, active_users\nfrom monthly_active\nwhere active_users > 3;"
       }
     },
     {
@@ -360,13 +360,13 @@ export const curriculum = {
         company: "AppForge",
         prompt: "Group users by signup month and count active users by activity month.",
         schema: ["users(id, signup_date)", "events(id, user_id, event_date)"],
-        starter: "select ... date_trunc('month', ...) ...",
+        starter: "select ... strftime('%Y-%m', ...) ...",
         checks: [
           { label: "Creates signup month", pattern: "signup_date" },
           { label: "Creates activity month", pattern: "event_date" },
           { label: "Counts active users", pattern: "count\\s*\\(\\s*distinct\\s+.*user_id" }
         ],
-        solution: "select date_trunc('month', u.signup_date) as signup_month,\n  date_trunc('month', e.event_date) as activity_month,\n  count(distinct u.id) as active_users\nfrom users u\njoin events e on e.user_id = u.id\ngroup by 1, 2\norder by 1, 2;"
+        solution: "select strftime('%Y-%m', u.signup_date) as signup_month,\n  strftime('%Y-%m', e.event_date) as activity_month,\n  count(distinct u.id) as active_users\nfrom users u\njoin events e on e.user_id = u.id\ngroup by 1, 2\norder by 1, 2;"
       }
     },
     {
@@ -402,15 +402,15 @@ export const curriculum = {
       review: ["What decision follows?", "What caveat belongs with the result?", "Who needs the answer?"],
       challenge: {
         company: "BoardRoom Analytics",
-        prompt: "Compare this month's revenue with last month's revenue.",
+        prompt: "Compare May 2026 revenue with June 2026 revenue.",
         schema: ["orders(id, order_date, total_amount)"],
         starter: "select ...",
         checks: [
-          { label: "Uses date logic", pattern: "date_trunc|month|interval" },
+          { label: "Uses date logic", pattern: "strftime|month|order_date" },
           { label: "Sums revenue", pattern: "sum\\s*\\(\\s*total_amount\\s*\\)" },
           { label: "Groups by period", pattern: "group\\s+by" }
         ],
-        solution: "select date_trunc('month', order_date) as revenue_month,\n  sum(total_amount) as revenue\nfrom orders\nwhere order_date >= date_trunc('month', current_date) - interval '1 month'\ngroup by date_trunc('month', order_date)\norder by revenue_month;"
+        solution: "select strftime('%Y-%m', order_date) as revenue_month,\n  sum(total_amount) as revenue\nfrom orders\nwhere order_date between '2026-05-01' and '2026-06-30'\ngroup by strftime('%Y-%m', order_date)\norder by revenue_month;"
       }
     },
     {
@@ -474,9 +474,9 @@ export const curriculum = {
         checks: [
           { label: "Uses revenue and cost", pattern: "revenue" },
           { label: "Calculates margin", pattern: "revenue\\s*-\\s*cost|cost\\s*-" },
-          { label: "Groups by month", pattern: "date_trunc|month" }
+          { label: "Groups by month", pattern: "strftime|month" }
         ],
-        solution: "select date_trunc('month', transaction_date) as month,\n  sum(revenue - cost) * 1.0 / nullif(sum(revenue), 0) as gross_margin_pct\nfrom transactions\ngroup by date_trunc('month', transaction_date)\norder by month;"
+        solution: "select strftime('%Y-%m', transaction_date) as month,\n  sum(revenue - cost) * 1.0 / nullif(sum(revenue), 0) as gross_margin_pct\nfrom transactions\ngroup by strftime('%Y-%m', transaction_date)\norder by month;"
       }
     },
     {
@@ -542,7 +542,7 @@ export const curriculum = {
           { label: "Uses average", pattern: "avg\\s*\\(" },
           { label: "Uses timestamps", pattern: "completed_at|started_at" }
         ],
-        solution: "select stage,\n  avg(extract(epoch from (completed_at - started_at)) / 3600) as avg_processing_hours\nfrom workflow_events\ngroup by stage\norder by avg_processing_hours desc;"
+        solution: "select stage,\n  avg((julianday(completed_at) - julianday(started_at)) * 24) as avg_processing_hours\nfrom workflow_events\ngroup by stage\norder by avg_processing_hours desc;"
       }
     },
     {
@@ -580,14 +580,14 @@ export const curriculum = {
         company: "Infinity Board",
         prompt: "Build a query that summarizes revenue, active customers, and average order value by month.",
         schema: ["orders(id, customer_id, order_date, total_amount)"],
-        starter: "select date_trunc('month', order_date) as month, ...",
+        starter: "select strftime('%Y-%m', order_date) as month, ...",
         checks: [
-          { label: "Groups by month", pattern: "date_trunc|month" },
+          { label: "Groups by month", pattern: "strftime|month" },
           { label: "Sums revenue", pattern: "sum\\s*\\(\\s*total_amount\\s*\\)" },
           { label: "Counts customers", pattern: "count\\s*\\(\\s*distinct\\s+customer_id" },
           { label: "Calculates average order value", pattern: "avg\\s*\\(\\s*total_amount\\s*\\)|aov" }
         ],
-        solution: "select date_trunc('month', order_date) as month,\n  sum(total_amount) as revenue,\n  count(distinct customer_id) as active_customers,\n  avg(total_amount) as average_order_value\nfrom orders\ngroup by date_trunc('month', order_date)\norder by month;"
+        solution: "select strftime('%Y-%m', order_date) as month,\n  sum(total_amount) as revenue,\n  count(distinct customer_id) as active_customers,\n  avg(total_amount) as average_order_value\nfrom orders\ngroup by strftime('%Y-%m', order_date)\norder by month;"
       }
     }
   ]
