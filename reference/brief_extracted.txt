@@ -1,0 +1,93 @@
+--- Page 1 ---
+PROJECT INFINITY
+A Human-Centric SQL Mastery System
+Transform a complete non-technical learner into someone who naturally thinks in data, understands
+databases intuitively, and solves real business problems using SQL.
+
+
+--- Page 2 ---
+The Infinity Mental Model
+Reality → Data → Database → SQL → Insight → Decision → Business
+Impact
+The objective is not SQL syntax. The objective is permanent data thinking.
+Learning Loop
+Story → Visual Thinking → Prediction → SQL → Reflection → Business Translation
+
+
+--- Page 3 ---
+24-Week Roadmap
+1
+Weeks 1–2: Data Thinking
+2
+Weeks 3–4: SQL Foundations
+3
+Weeks 5–8: Intermediate SQL
+4
+Weeks 9–12: Advanced SQL
+5
+Weeks 13–16: Business Analytics SQL
+6
+Weeks 17–24: Real-World Mastery Projects
+Level System
+1
+Level 1 – Data Explorer
+2
+Level 2 – Data Detective
+3
+Level 3 – Query Builder
+4
+Level 4 – Data Analyst
+5
+Level 5 – BI Apprentice
+6
+Level 6 – SQL Strategist
+7
+Level 7 – Analytics Architect
+8
+Level 8 – Data Commander
+9
+Level 9 – Infinity Master
+
+
+--- Page 4 ---
+Addictive Learning Architecture
+1
+XP points for every completed lesson
+2
+Achievement badges and milestones
+3
+Daily 5-minute retention reviews
+4
+Weekly challenge missions
+5
+Monthly boss battles based on real companies
+6
+Visible progress tracking and streaks
+Human-Centric Design Principles
+1
+Every lesson creates a visible win
+2
+Every concept has business meaning
+3
+Every week shows measurable growth
+4
+Learning should feel like exploration rather than study
+
+
+--- Page 5 ---
+Infinity Rules
+1
+Never memorize SQL blindly
+2
+Understand the why before the how
+3
+Connect every query to a business story
+4
+Build before consuming content
+5
+Attempt before viewing solutions
+6
+Teach back what you learn
+End Vision
+By the end of Project Infinity, SQL becomes a tool. The real outcome is a permanent ability to think in data,
+communicate with analytics teams, and solve business problems systematically.

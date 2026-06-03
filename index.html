@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Project Infinity SQL Mastery</title>
+    <link rel="icon" href="./assets/favicon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="./styles.css">
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="side-rail" aria-label="Project navigation">
+        <div class="brand-block">
+          <span class="brand-mark">PI</span>
+          <div>
+            <h1>Project Infinity</h1>
+            <p>SQL Mastery System</p>
+          </div>
+        </div>
+
+        <nav class="level-list" id="levelList" aria-label="Level system"></nav>
+      </aside>
+
+      <main class="workspace">
+        <header class="top-bar">
+          <div>
+            <p class="eyebrow">Reality to business impact</p>
+            <h2 id="activeTitle">Week 1: Data Thinking</h2>
+          </div>
+          <div class="top-actions">
+            <button class="ghost-button" id="resetButton" type="button">
+              <span data-icon="rotate"></span>
+              Reset
+            </button>
+          </div>
+        </header>
+
+        <section class="metrics-band" aria-label="Progress metrics">
+          <article class="metric-block">
+            <span class="metric-label">XP</span>
+            <strong id="xpTotal">0</strong>
+          </article>
+          <article class="metric-block">
+            <span class="metric-label">Level</span>
+            <strong id="currentLevel">Data Explorer</strong>
+          </article>
+          <article class="metric-block">
+            <span class="metric-label">Completion</span>
+            <strong id="completionTotal">0%</strong>
+          </article>
+          <article class="metric-block">
+            <span class="metric-label">Streak</span>
+            <strong id="streakTotal">0 days</strong>
+          </article>
+        </section>
+
+        <section class="flow-band" aria-label="Infinity mental model">
+          <img src="./assets/data-thinking-map.svg" alt="Reality to data to SQL to business impact flow">
+          <div class="flow-copy">
+            <p class="eyebrow">Mental model</p>
+            <ol id="mentalModel"></ol>
+          </div>
+        </section>
+
+        <section class="main-grid">
+          <div class="panel journey-panel">
+            <div class="panel-heading">
+              <div>
+                <p class="eyebrow">24-week roadmap</p>
+                <h3>Journey Map</h3>
+              </div>
+              <span id="phaseLabel" class="status-pill">Phase 1</span>
+            </div>
+            <div class="week-map" id="weekMap" aria-label="Week selector"></div>
+          </div>
+
+          <div class="panel week-panel">
+            <div class="panel-heading">
+              <div>
+                <p class="eyebrow" id="weekPhase">Weeks 1-2</p>
+                <h3 id="weekTitle">Data Thinking</h3>
+              </div>
+              <span id="weekLevel" class="status-pill">Data Explorer</span>
+            </div>
+            <p class="story-line" id="weekStory"></p>
+            <div class="win-strip">
+              <span>Visible win</span>
+              <strong id="visibleWin"></strong>
+            </div>
+            <div class="lesson-list" id="lessonList"></div>
+          </div>
+
+          <div class="panel sql-panel">
+            <div class="panel-heading">
+              <div>
+                <p class="eyebrow" id="companyLabel">Company mission</p>
+                <h3>SQL Practice</h3>
+              </div>
+              <span id="sqlStatus" class="status-pill">Ready</span>
+            </div>
+            <p class="mission-copy" id="challengePrompt"></p>
+            <div class="schema-grid" id="schemaGrid"></div>
+            <label class="query-label" for="queryInput">Query attempt</label>
+            <textarea id="queryInput" spellcheck="false"></textarea>
+            <div class="button-row">
+              <button class="primary-button" id="runButton" type="button">
+                <span data-icon="play"></span>
+                Check Query
+              </button>
+              <button class="ghost-button" id="solutionButton" type="button">
+                <span data-icon="eye"></span>
+                Solution
+              </button>
+            </div>
+            <div class="feedback-box" id="feedbackBox" aria-live="polite"></div>
+            <pre class="solution-box" id="solutionBox"></pre>
+          </div>
+
+          <div class="panel review-panel">
+            <div class="panel-heading">
+              <div>
+                <p class="eyebrow">Daily 5-minute review</p>
+                <h3>Retention Loop</h3>
+              </div>
+              <span id="reviewStatus" class="status-pill">Open</span>
+            </div>
+            <div class="review-list" id="reviewList"></div>
+            <button class="primary-button wide-button" id="reviewButton" type="button">
+              <span data-icon="check"></span>
+              Mark Reviewed
+            </button>
+          </div>
+
+          <div class="panel boss-panel">
+            <div class="panel-heading">
+              <div>
+                <p class="eyebrow">Monthly boss battle</p>
+                <h3 id="bossTitle">Business Case</h3>
+              </div>
+              <span id="bossMonth" class="status-pill">Month 1</span>
+            </div>
+            <p id="bossPrompt" class="mission-copy"></p>
+            <button class="ghost-button wide-button" id="bossButton" type="button">
+              <span data-icon="target"></span>
+              Complete Battle
+            </button>
+          </div>
+
+          <div class="panel badge-panel">
+            <div class="panel-heading">
+              <div>
+                <p class="eyebrow">Achievements</p>
+                <h3>Badges</h3>
+              </div>
+              <span id="badgeCount" class="status-pill">0 earned</span>
+            </div>
+            <div class="badge-grid" id="badgeGrid"></div>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <script type="module" src="./src/main.js"></script>
+  </body>
+</html>
