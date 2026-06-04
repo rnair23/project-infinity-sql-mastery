@@ -6,6 +6,8 @@ export function getElements() {
     currentLevel: document.getElementById("currentLevel"),
     completionTotal: document.getElementById("completionTotal"),
     streakTotal: document.getElementById("streakTotal"),
+    guideButton: document.getElementById("guideButton"),
+    guideLayer: document.getElementById("guideLayer"),
     mentalModel: document.getElementById("mentalModel"),
     phaseLabel: document.getElementById("phaseLabel"),
     weekMap: document.getElementById("weekMap"),

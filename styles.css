@@ -670,6 +670,117 @@ textarea:focus {
   margin-top: 8px;
 }
 
+.guide-layer {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+}
+
+.guide-scrim {
+  position: absolute;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.46);
+}
+
+.guide-highlight {
+  position: fixed;
+  z-index: 51;
+  border: 3px solid #f59e0b;
+  border-radius: var(--radius);
+  box-shadow:
+    0 0 0 9999px rgba(15, 23, 42, 0.28),
+    0 0 0 8px rgba(245, 158, 11, 0.2);
+  pointer-events: none;
+}
+
+.guide-card {
+  position: fixed;
+  z-index: 52;
+  width: min(360px, calc(100vw - 36px));
+  max-height: calc(100vh - 36px);
+  overflow: auto;
+  padding: 16px;
+  border: 1px solid #fed7aa;
+  border-radius: var(--radius);
+  color: var(--ink);
+  background: #ffffff;
+  box-shadow: 0 24px 60px rgba(15, 23, 42, 0.24);
+}
+
+.guide-card h3,
+.guide-card p {
+  margin: 0;
+}
+
+.guide-card h3 {
+  margin-top: 4px;
+  font-size: 20px;
+  line-height: 1.2;
+}
+
+.guide-card > p:not(.eyebrow) {
+  margin-top: 10px;
+  color: #344054;
+  line-height: 1.5;
+}
+
+.guide-arrow {
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  background: #ffffff;
+  border: 1px solid #fed7aa;
+  transform: rotate(45deg);
+}
+
+.guide-card-top .guide-arrow {
+  left: calc(50% - 9px);
+  bottom: -10px;
+  border-top: 0;
+  border-left: 0;
+}
+
+.guide-card-bottom .guide-arrow {
+  left: calc(50% - 9px);
+  top: -10px;
+  border-right: 0;
+  border-bottom: 0;
+}
+
+.guide-card-right .guide-arrow {
+  left: -10px;
+  top: calc(50% - 9px);
+  border-top: 0;
+  border-right: 0;
+}
+
+.guide-card-left .guide-arrow {
+  right: -10px;
+  top: calc(50% - 9px);
+  border-left: 0;
+  border-bottom: 0;
+}
+
+.guide-progress {
+  margin-top: 12px;
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.guide-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1.2fr;
+  gap: 8px;
+  margin-top: 14px;
+}
+
+.guide-actions .primary-button,
+.guide-actions .ghost-button {
+  min-height: 38px;
+  padding-inline: 10px;
+}
+
 .review-chip {
   min-height: 42px;
   padding: 9px 10px;
@@ -785,5 +896,9 @@ textarea:focus {
   .panel-heading {
     align-items: flex-start;
     flex-direction: column;
+  }
+
+  .guide-actions {
+    grid-template-columns: 1fr;
   }
 }

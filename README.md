@@ -29,9 +29,14 @@ No package install step is required.
 - `src/utils/` - date, icon, and SQL-check helpers
 - `src/services/sqlEngine.js` - SQLite WebAssembly runtime wrapper
 - `src/views/` - focused renderers for dashboard sections
+- `src/data/featureGuides.js` - "What's New" guide content for user-facing additions
 - `vendor/sqljs/` - vendored SQL.js browser runtime
 - `assets/data-thinking-map.svg` - visual learning model asset
 - `reference/` - source PDF and extracted text brief
+
+## New Feature Guide Rule
+
+Whenever a user-facing feature is added, update `src/data/featureGuides.js` with a new guide `id`, clear release label, and arrowed steps that point to the new controls or output area. The app shows the latest guide once per user and keeps it available through the `What's New` button.
 
 ## Current Judgment Call
 

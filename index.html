@@ -28,6 +28,10 @@
             <h2 id="activeTitle">Week 1: Data Thinking</h2>
           </div>
           <div class="top-actions">
+            <button class="ghost-button" id="guideButton" type="button">
+              <span data-icon="sparkle"></span>
+              What's New
+            </button>
             <button class="ghost-button" id="resetButton" type="button">
               <span data-icon="rotate"></span>
               Reset
@@ -160,6 +164,8 @@
         </section>
       </main>
     </div>
+
+    <div class="guide-layer" id="guideLayer" hidden></div>
 
     <script src="./vendor/sqljs/sql-wasm.js"></script>
     <script type="module" src="./src/main.js"></script>

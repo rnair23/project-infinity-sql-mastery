@@ -1,4 +1,5 @@
 import { curriculum } from "./data/curriculum.js";
+import { activeFeatureGuide } from "./data/featureGuides.js";
 import { createStore } from "./state/store.js";
 import { completedLessonIds, getWeek } from "./state/selectors.js";
 import { runLearnerQuery } from "./services/sqlEngine.js";
@@ -14,9 +15,16 @@ import { renderMetrics } from "./views/metricsView.js";
 import { renderReview } from "./views/reviewView.js";
 import { renderSqlLab } from "./views/sqlLabView.js";
 import { renderWeekDetails } from "./views/weekView.js";
+import { setupFeatureGuide } from "./views/guideView.js";
 
 const store = createStore("projectInfinityState.v1");
 const els = getElements();
+const featureGuide = setupFeatureGuide({
+  guide: activeFeatureGuide,
+  els,
+  onBeforeStep: prepareGuideStep,
+  onClose: cleanupGuideStep
+});
 
 function render() {
   const state = store.getState();
@@ -135,11 +143,29 @@ function resetProgress() {
 }
 
 function bindEvents() {
+  els.guideButton.addEventListener("click", () => featureGuide.show({ force: true }));
   els.runButton.addEventListener("click", runQueryCheck);
   els.solutionButton.addEventListener("click", revealSolution);
   els.reviewButton.addEventListener("click", markReviewDone);
   els.resetButton.addEventListener("click", resetProgress);
 }
 
+function prepareGuideStep(step) {
+  if (step.target !== "#resultShell") {
+    cleanupGuideStep();
+  }
+
+  if (step.target === "#resultShell" && !els.resultShell.innerHTML.trim()) {
+    els.resultShell.innerHTML = '<div class="result-empty" data-guide-placeholder="true">Query results will appear here after SQLite runs your attempt.</div>';
+  }
+}
+
+function cleanupGuideStep() {
+  if (els.resultShell.querySelector("[data-guide-placeholder]")) {
+    els.resultShell.innerHTML = "";
+  }
+}
+
 bindEvents();
 render();
+window.setTimeout(() => featureGuide.show(), 700);

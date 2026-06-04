@@ -12,6 +12,7 @@ Project Infinity should teach permanent data thinking. SQL syntax is treated as 
 4. Daily retention review and streak tracking.
 5. Monthly boss battle prompts based on realistic business scenarios.
 6. Badge system that rewards behavior from the PDF rules.
+7. "What's New" guided popup for user-facing feature additions.
 
 ## Design Principles Applied
 
@@ -28,3 +29,4 @@ Project Infinity should teach permanent data thinking. SQL syntax is treated as 
 3. Turn review prompts into spaced repetition cards.
 4. Add mentor/instructor review views.
 5. Add unit tests around scoring and query execution.
+6. Keep feature guide entries updated whenever a new learner-facing capability ships.
