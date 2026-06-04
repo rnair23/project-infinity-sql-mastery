@@ -8,6 +8,7 @@
     "verify:solutions": "node scripts/verify-solutions.js"
   },
   "dependencies": {
+    "openai": "^6.42.0",
     "sql.js": "^1.13.0"
   },
   "devDependencies": {

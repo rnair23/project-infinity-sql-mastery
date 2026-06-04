@@ -1,0 +1,7 @@
+{
+  "functions": {
+    "api/mentor.js": {
+      "maxDuration": 30
+    }
+  }
+}

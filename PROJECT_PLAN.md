@@ -13,6 +13,7 @@ Project Infinity should teach permanent data thinking. SQL syntax is treated as 
 5. Monthly boss battle prompts based on realistic business scenarios.
 6. Badge system that rewards behavior from the PDF rules.
 7. "What's New" guided popup for user-facing feature additions.
+8. AI Mentor panel scaffold with secure serverless OpenAI endpoint.
 
 ## Design Principles Applied
 
@@ -30,3 +31,4 @@ Project Infinity should teach permanent data thinking. SQL syntax is treated as 
 4. Add mentor/instructor review views.
 5. Add unit tests around scoring and query execution.
 6. Keep feature guide entries updated whenever a new learner-facing capability ships.
+7. Deploy the AI Mentor endpoint and connect it to the live frontend.

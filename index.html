@@ -121,6 +121,29 @@
             <pre class="solution-box" id="solutionBox"></pre>
           </div>
 
+          <div class="panel mentor-panel">
+            <div class="panel-heading">
+              <div>
+                <p class="eyebrow">AI learning support</p>
+                <h3>AI Mentor</h3>
+              </div>
+              <span id="mentorStatus" class="status-pill">Optional</span>
+            </div>
+            <div class="mentor-modes" id="mentorModes" aria-label="AI mentor modes">
+              <button class="mentor-mode active" type="button" data-mentor-mode="hint">Hint</button>
+              <button class="mentor-mode" type="button" data-mentor-mode="error">Explain Error</button>
+              <button class="mentor-mode" type="button" data-mentor-mode="business">Business Meaning</button>
+              <button class="mentor-mode" type="button" data-mentor-mode="next">Next Step</button>
+            </div>
+            <label class="query-label" for="mentorQuestion">Ask the mentor</label>
+            <textarea id="mentorQuestion" class="mentor-question" spellcheck="true" placeholder="I am not sure how to start this query."></textarea>
+            <button class="primary-button wide-button" id="mentorAskButton" type="button">
+              <span data-icon="sparkle"></span>
+              Ask Mentor
+            </button>
+            <div class="mentor-answer" id="mentorAnswer" aria-live="polite"></div>
+          </div>
+
           <div class="panel review-panel">
             <div class="panel-heading">
               <div>

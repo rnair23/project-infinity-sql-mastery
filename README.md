@@ -30,6 +30,8 @@ No package install step is required.
 - `src/services/sqlEngine.js` - SQLite WebAssembly runtime wrapper
 - `src/views/` - focused renderers for dashboard sections
 - `src/data/featureGuides.js` - "What's New" guide content for user-facing additions
+- `api/mentor.js` - optional secure AI Mentor backend for serverless deployment
+- `docs/AI_MENTOR_SETUP.md` - setup notes for connecting OpenAI safely
 - `vendor/sqljs/` - vendored SQL.js browser runtime
 - `assets/data-thinking-map.svg` - visual learning model asset
 - `reference/` - source PDF and extracted text brief
@@ -43,3 +45,7 @@ Whenever a user-facing feature is added, update `src/data/featureGuides.js` with
 The PDF describes a learning product rather than a conventional course document. This version starts with the product surface a learner would use every day: select a week, complete visible wins, execute SQL against sample data, do retention reviews, and watch level progress change.
 
 Future versions can add richer datasets, user accounts, spaced repetition scheduling, and instructor dashboards.
+
+## AI Mentor
+
+The app includes an AI Mentor panel and a serverless OpenAI endpoint scaffold. GitHub Pages cannot securely store API keys, so the mentor needs a backend deployment such as Vercel before live OpenAI responses work. See `docs/AI_MENTOR_SETUP.md`.

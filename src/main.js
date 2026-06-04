@@ -2,6 +2,7 @@ import { curriculum } from "./data/curriculum.js";
 import { activeFeatureGuide } from "./data/featureGuides.js";
 import { createStore } from "./state/store.js";
 import { completedLessonIds, getWeek } from "./state/selectors.js";
+import { askMentor } from "./services/mentorClient.js";
 import { runLearnerQuery } from "./services/sqlEngine.js";
 import { todayKey, yesterdayKey } from "./utils/date.js";
 import { hydrateIcons } from "./utils/icons.js";
@@ -12,6 +13,7 @@ import { renderBossBattle } from "./views/bossView.js";
 import { renderJourney } from "./views/journeyView.js";
 import { renderMentalModel } from "./views/mentalModelView.js";
 import { renderMetrics } from "./views/metricsView.js";
+import { bindMentorModes, getMentorMode, renderMentor, setMentorAnswer, setMentorError, setMentorLoading } from "./views/mentorView.js";
 import { renderReview } from "./views/reviewView.js";
 import { renderSqlLab } from "./views/sqlLabView.js";
 import { renderWeekDetails } from "./views/weekView.js";
@@ -19,6 +21,7 @@ import { setupFeatureGuide } from "./views/guideView.js";
 
 const store = createStore("projectInfinityState.v1");
 const els = getElements();
+let activeMentorMode = "hint";
 const featureGuide = setupFeatureGuide({
   guide: activeFeatureGuide,
   els,
@@ -35,6 +38,7 @@ function render() {
   renderJourney(els, state, curriculum, selectWeek);
   renderWeekDetails(els, state, week, toggleLesson);
   renderSqlLab(els, state, week);
+  renderMentor(els, state, week);
   renderReview(els, state, week);
   renderBossBattle(els, state, curriculum, week.id, completeBossBattle);
   renderBadges(els, state, curriculum);
@@ -144,10 +148,67 @@ function resetProgress() {
 
 function bindEvents() {
   els.guideButton.addEventListener("click", () => featureGuide.show({ force: true }));
+  bindMentorModes(els, (mode) => {
+    activeMentorMode = mode;
+  });
+  els.mentorAskButton.addEventListener("click", askAiMentor);
   els.runButton.addEventListener("click", runQueryCheck);
   els.solutionButton.addEventListener("click", revealSolution);
   els.reviewButton.addEventListener("click", markReviewDone);
   els.resetButton.addEventListener("click", resetProgress);
+}
+
+async function askAiMentor() {
+  const state = store.getState();
+  const week = getWeek(curriculum, state.selectedWeek);
+  const mode = activeMentorMode || getMentorMode(els);
+  const question = els.mentorQuestion.value.trim();
+
+  setMentorLoading(els);
+
+  try {
+    const response = await askMentor({
+      mode,
+      question,
+      context: buildMentorContext(state, week)
+    });
+    setMentorAnswer(els, response.answer || "I could not generate a mentor response.");
+  } catch (error) {
+    setMentorError(els, error.message);
+  }
+}
+
+function buildMentorContext(state, week) {
+  const attempt = state.sqlAttempts[week.id];
+  return {
+    week: {
+      id: week.id,
+      title: week.title,
+      phase: week.phase,
+      level: week.level,
+      story: week.story,
+      visibleWin: week.visibleWin
+    },
+    challenge: {
+      company: week.challenge.company,
+      prompt: week.challenge.prompt,
+      schema: week.challenge.schema,
+      checks: week.challenge.checks.map((check) => check.label)
+    },
+    learner: {
+      query: els.queryInput.value.trim(),
+      question: els.mentorQuestion.value.trim(),
+      lastFeedback: attempt?.feedback || "",
+      lastError: attempt?.error || "",
+      lastResult: attempt?.result
+        ? {
+            columns: attempt.result.columns,
+            rows: attempt.result.rows.slice(0, 8),
+            rowCount: attempt.result.rowCount
+          }
+        : null
+    }
+  };
 }
 
 function prepareGuideStep(step) {

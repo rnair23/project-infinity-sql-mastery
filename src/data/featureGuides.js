@@ -1,24 +1,24 @@
 export const activeFeatureGuide = {
-  id: "sqlite-practice-v1",
-  title: "New: Real SQLite Practice",
-  releaseLabel: "SQLite engine upgrade",
+  id: "ai-mentor-v1",
+  title: "New: AI Mentor",
+  releaseLabel: "AI mentor upgrade",
   steps: [
     {
-      target: "#queryInput",
-      title: "Write real SQL",
-      body: "The practice area now runs SELECT and WITH queries against a seeded SQLite database in your browser.",
+      target: ".mentor-panel",
+      title: "Meet your AI Mentor",
+      body: "Use this panel when you are stuck, unsure how to start, or need the result translated into business meaning.",
       placement: "right"
     },
     {
-      target: "#runButton",
-      title: "Run the query",
-      body: "Use Run Query to execute your attempt. Passing requirements still unlock XP, but the rows now come from SQLite.",
+      target: "#mentorModes",
+      title: "Choose the kind of help",
+      body: "Pick a hint, error explanation, business translation, or next-step coaching. The mentor uses your current week and query context.",
       placement: "top"
     },
     {
-      target: "#resultShell",
-      title: "Read the result table",
-      body: "After execution, query output appears here as a table, along with business-intent checks for the challenge.",
+      target: "#mentorAskButton",
+      title: "Ask without losing momentum",
+      body: "Ask Mentor sends your current challenge, schema, query, and last SQLite result to the secure backend when it is connected.",
       placement: "top"
     }
   ]
