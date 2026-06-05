@@ -1,3 +1,5 @@
+import { BADGE_DEFINITIONS, LEVELS } from "./constants.js";
+
 export const curriculum = {
   mentalModel: [
     "Reality",
@@ -8,26 +10,8 @@ export const curriculum = {
     "Decision",
     "Business impact"
   ],
-  levels: [
-    { id: 1, name: "Data Explorer", xp: 0 },
-    { id: 2, name: "Data Detective", xp: 350 },
-    { id: 3, name: "Query Builder", xp: 700 },
-    { id: 4, name: "Data Analyst", xp: 1100 },
-    { id: 5, name: "BI Apprentice", xp: 1550 },
-    { id: 6, name: "SQL Strategist", xp: 2050 },
-    { id: 7, name: "Analytics Architect", xp: 2600 },
-    { id: 8, name: "Data Commander", xp: 3200 },
-    { id: 9, name: "Infinity Master", xp: 3900 }
-  ],
-  badges: [
-    { id: "first-win", name: "First Visible Win", text: "Complete one lesson." },
-    { id: "attempt-first", name: "Attempt Before Answer", text: "Check a query before opening a solution." },
-    { id: "reviewer", name: "Retention Starter", text: "Complete one daily review." },
-    { id: "week-one", name: "Week Finisher", text: "Complete every lesson in a week." },
-    { id: "boss-clear", name: "Boss Battle Clear", text: "Complete a monthly battle." },
-    { id: "halfway", name: "Halfway Analyst", text: "Complete twelve weeks." },
-    { id: "infinity", name: "Infinity Master", text: "Complete all twenty-four weeks." }
-  ],
+  levels: LEVELS,
+  badges: BADGE_DEFINITIONS,
   bossBattles: [
     {
       month: 1,

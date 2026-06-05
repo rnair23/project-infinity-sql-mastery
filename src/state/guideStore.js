@@ -1,3 +1,5 @@
+import { storageAdapter } from "./storageAdapter.js";
+
 const guideStorageKey = "projectInfinityGuides.v1";
 
 export function isGuideDismissed(guideId) {
@@ -9,16 +11,12 @@ export function dismissGuide(guideId) {
   if (!state.dismissedGuides.includes(guideId)) {
     state.dismissedGuides.push(guideId);
   }
-  localStorage.setItem(guideStorageKey, JSON.stringify(state));
+  storageAdapter.set(guideStorageKey, state);
 }
 
 function readGuideState() {
-  try {
-    const saved = JSON.parse(localStorage.getItem(guideStorageKey));
-    return {
-      dismissedGuides: Array.isArray(saved?.dismissedGuides) ? saved.dismissedGuides : []
-    };
-  } catch (error) {
-    return { dismissedGuides: [] };
-  }
+  const saved = storageAdapter.get(guideStorageKey);
+  return {
+    dismissedGuides: Array.isArray(saved?.dismissedGuides) ? saved.dismissedGuides : []
+  };
 }

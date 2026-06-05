@@ -5,7 +5,8 @@
   "type": "module",
   "scripts": {
     "serve": "python -m http.server 4173",
-    "verify:solutions": "node scripts/verify-solutions.js"
+    "verify:solutions": "node scripts/verify-solutions.js",
+    "verify:scaling": "node scripts/verify-scaling-foundation.js"
   },
   "dependencies": {
     "openai": "^6.42.0",

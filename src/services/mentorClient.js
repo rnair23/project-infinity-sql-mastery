@@ -1,3 +1,5 @@
+import { storageAdapter } from "../state/storageAdapter.js";
+
 const mentorEndpointKey = "projectInfinityAiEndpoint";
 
 export async function askMentor(payload) {
@@ -28,7 +30,7 @@ export async function askMentor(payload) {
 }
 
 export function getMentorEndpoint() {
-  const savedEndpoint = localStorage.getItem(mentorEndpointKey);
+  const savedEndpoint = storageAdapter.get(mentorEndpointKey);
   if (savedEndpoint) return savedEndpoint;
 
   if (isStaticOnlyHost()) return "";
@@ -37,7 +39,7 @@ export function getMentorEndpoint() {
 }
 
 export function setMentorEndpoint(endpoint) {
-  localStorage.setItem(mentorEndpointKey, endpoint);
+  storageAdapter.set(mentorEndpointKey, endpoint);
 }
 
 export class MentorConnectionError extends Error {

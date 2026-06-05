@@ -1,12 +1,14 @@
 import { curriculum } from "./data/curriculum.js";
 import { activeFeatureGuide } from "./data/featureGuides.js";
+import { FEATURE_GUIDE_DELAY_MS, STREAK_CONFIG } from "./data/constants.js";
 import { createStore } from "./state/store.js";
 import { completedLessonIds, getWeek } from "./state/selectors.js";
 import { askMentor } from "./services/mentorClient.js";
-import { runLearnerQuery } from "./services/sqlEngine.js";
+import { syncEarnedBadges } from "./services/badgeEngine.js";
+import { runPracticeQuery } from "./services/queryService.js";
 import { todayKey, yesterdayKey } from "./utils/date.js";
+import { events } from "./utils/events.js";
 import { hydrateIcons } from "./utils/icons.js";
-import { checkChallengeRequirements, formatSqlError, formatSqlFeedback } from "./utils/sqlCheck.js";
 import { getElements } from "./views/dom.js";
 import { renderBadges } from "./views/badgeView.js";
 import { renderBossBattle } from "./views/bossView.js";
@@ -19,7 +21,9 @@ import { renderSqlLab } from "./views/sqlLabView.js";
 import { renderWeekDetails } from "./views/weekView.js";
 import { setupFeatureGuide } from "./views/guideView.js";
 
-const store = createStore("projectInfinityState.v1");
+const store = createStore("projectInfinityState.v1", {
+  deriveState: (state) => syncEarnedBadges(state, curriculum)
+});
 const els = getElements();
 let activeMentorMode = "hint";
 const featureGuide = setupFeatureGuide({
@@ -49,6 +53,7 @@ function selectWeek(weekId) {
   store.update((state) => {
     state.selectedWeek = weekId;
   });
+  events.emit("week:selected", { weekId });
   render();
 }
 
@@ -75,32 +80,23 @@ async function runQueryCheck() {
   els.resultShell.innerHTML = "";
 
   try {
-    const execution = await runLearnerQuery(query);
-    const requirements = checkChallengeRequirements(query, week.challenge.checks);
-    const feedback = formatSqlFeedback({ execution, requirements });
+    const attempt = await runPracticeQuery({ query, challenge: week.challenge });
 
     store.update((state) => {
       state.sqlAttempts[week.id] = {
-        query,
-        feedback,
-        result: execution,
-        passedCount: requirements.passedCount
+        query: attempt.query,
+        feedback: attempt.feedback,
+        result: attempt.result,
+        error: attempt.error,
+        passedCount: attempt.passedCount
       };
-      if (requirements.passed) {
+      if (attempt.passed) {
         state.sqlPassed[week.id] = true;
       } else {
         delete state.sqlPassed[week.id];
       }
     });
-  } catch (error) {
-    store.update((state) => {
-      state.sqlAttempts[week.id] = {
-        query,
-        feedback: formatSqlError(error),
-        error: error.message
-      };
-      delete state.sqlPassed[week.id];
-    });
+    events.emit("query:completed", { weekId: week.id, passed: attempt.passed });
   } finally {
     els.runButton.disabled = false;
     render();
@@ -124,7 +120,7 @@ function markReviewDone() {
   store.update((state) => {
     const today = todayKey();
     if (state.lastReviewDate !== today) {
-      state.streak = state.lastReviewDate === yesterdayKey() ? state.streak + 1 : 1;
+      state.streak = state.lastReviewDate === yesterdayKey() ? state.streak + STREAK_CONFIG.INCREMENT_DAYS : STREAK_CONFIG.RESET_DAYS;
       state.lastReviewDate = today;
     }
     state.reviews[today] = true;
@@ -136,6 +132,7 @@ function completeBossBattle(month) {
   store.update((state) => {
     state.bossBattles[month] = true;
   });
+  events.emit("boss:completed", { month });
   render();
 }
 
@@ -229,4 +226,4 @@ function cleanupGuideStep() {
 
 bindEvents();
 render();
-window.setTimeout(() => featureGuide.show(), 700);
+window.setTimeout(() => featureGuide.show(), FEATURE_GUIDE_DELAY_MS);

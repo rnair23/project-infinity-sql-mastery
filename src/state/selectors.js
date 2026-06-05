@@ -1,3 +1,6 @@
+import { XP_VALUES } from "../data/constants.js";
+import { checkBadges } from "../services/badgeEngine.js";
+
 export function getWeek(curriculum, id) {
   return curriculum.weeks.find((week) => week.id === id) || curriculum.weeks[0];
 }
@@ -15,11 +18,11 @@ export function getCompletedWeekCount(state, curriculum) {
 }
 
 export function calculateXp(state, curriculum) {
-  const lessonXp = Object.values(state.completedLessons).reduce((sum, ids) => sum + ids.length * 25, 0);
-  const weekXp = getCompletedWeekCount(state, curriculum) * 100;
-  const sqlXp = Object.keys(state.sqlPassed).length * 75;
-  const reviewXp = Object.keys(state.reviews).length * 15;
-  const bossXp = Object.keys(state.bossBattles).length * 150;
+  const lessonXp = Object.values(state.completedLessons).reduce((sum, ids) => sum + ids.length * XP_VALUES.LESSON, 0);
+  const weekXp = getCompletedWeekCount(state, curriculum) * XP_VALUES.WEEK_COMPLETION;
+  const sqlXp = Object.keys(state.sqlPassed).length * XP_VALUES.SQL_PASS;
+  const reviewXp = Object.keys(state.reviews).length * XP_VALUES.REVIEW;
+  const bossXp = Object.keys(state.bossBattles).length * XP_VALUES.BOSS_BATTLE;
   return lessonXp + weekXp + sqlXp + reviewXp + bossXp;
 }
 
@@ -34,17 +37,5 @@ export function getBossBattle(curriculum, weekId) {
 }
 
 export function earnedBadges(state, curriculum) {
-  const completedWeeks = getCompletedWeekCount(state, curriculum);
-  const completedLessons = Object.values(state.completedLessons).reduce((sum, ids) => sum + ids.length, 0);
-
-  return curriculum.badges.filter((badge) => {
-    if (badge.id === "first-win") return completedLessons > 0;
-    if (badge.id === "attempt-first") return Object.keys(state.sqlAttempts).length > 0;
-    if (badge.id === "reviewer") return Object.keys(state.reviews).length > 0;
-    if (badge.id === "week-one") return completedWeeks > 0;
-    if (badge.id === "boss-clear") return Object.keys(state.bossBattles).length > 0;
-    if (badge.id === "halfway") return completedWeeks >= 12;
-    if (badge.id === "infinity") return completedWeeks === curriculum.weeks.length;
-    return false;
-  });
+  return checkBadges(state, curriculum);
 }

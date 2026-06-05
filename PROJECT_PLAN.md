@@ -14,6 +14,7 @@ Project Infinity should teach permanent data thinking. SQL syntax is treated as 
 6. Badge system that rewards behavior from the PDF rules.
 7. "What's New" guided popup for user-facing feature additions.
 8. AI Mentor panel scaffold with secure serverless OpenAI endpoint.
+9. Scaling foundation with constants, storage adapter, badge engine, query service, and event bus.
 
 ## Design Principles Applied
 

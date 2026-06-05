@@ -1,3 +1,5 @@
+import { storageAdapter } from "./storageAdapter.js";
+
 export const defaultState = {
   selectedWeek: 1,
   completedLessons: {},
@@ -6,15 +8,25 @@ export const defaultState = {
   solutionSeen: {},
   reviews: {},
   bossBattles: {},
+  earnedBadgeIds: [],
   streak: 0,
   lastReviewDate: ""
 };
 
-export function createStore(storageKey) {
+export function createStore(storageKey, options = {}) {
+  const { deriveState } = options;
   let state = loadState(storageKey);
+  applyDerivations();
 
   function save() {
-    localStorage.setItem(storageKey, JSON.stringify(state));
+    applyDerivations();
+    storageAdapter.set(storageKey, state);
+  }
+
+  function applyDerivations() {
+    if (deriveState) {
+      deriveState(state);
+    }
   }
 
   return {
@@ -28,6 +40,9 @@ export function createStore(storageKey) {
     reset() {
       state = freshState();
       save();
+    },
+    exportSnapshot() {
+      return storageAdapter.getAll();
     }
   };
 }
@@ -37,10 +52,6 @@ function freshState() {
 }
 
 function loadState(storageKey) {
-  try {
-    const saved = JSON.parse(localStorage.getItem(storageKey));
-    return saved ? { ...freshState(), ...saved } : freshState();
-  } catch (error) {
-    return freshState();
-  }
+  const saved = storageAdapter.get(storageKey);
+  return saved ? { ...freshState(), ...saved } : freshState();
 }

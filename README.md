@@ -25,9 +25,13 @@ No package install step is required.
 - `styles.css` - responsive interface styling
 - `src/main.js` - app coordinator and event wiring
 - `src/data/curriculum.js` - 24-week roadmap and challenge content
+- `src/data/constants.js` - game balance constants, level thresholds, and badge rules
 - `src/state/` - persistence and derived progress selectors
+- `src/state/storageAdapter.js` - local persistence wrapper for future backend swaps
 - `src/utils/` - date, icon, and SQL-check helpers
 - `src/services/sqlEngine.js` - SQLite WebAssembly runtime wrapper
+- `src/services/badgeEngine.js` - pure badge calculation service
+- `src/services/queryService.js` - SQL practice orchestration service
 - `src/views/` - focused renderers for dashboard sections
 - `src/data/featureGuides.js` - "What's New" guide content for user-facing additions
 - `api/mentor.js` - optional secure AI Mentor backend for serverless deployment
@@ -35,6 +39,15 @@ No package install step is required.
 - `vendor/sqljs/` - vendored SQL.js browser runtime
 - `assets/data-thinking-map.svg` - visual learning model asset
 - `reference/` - source PDF and extracted text brief
+
+## Verification
+
+```powershell
+npm run verify:solutions
+npm run verify:scaling
+```
+
+The scaling checklist foundation currently covers constants extraction, storage adapter wrapping, badge engine extraction, and service prep for query execution/event-based growth.
 
 ## New Feature Guide Rule
 
